@@ -14,14 +14,14 @@ Long Ma, Yuxin Feng, Yan Zhang, Jinyuan Liu, Weimin Wang, Guangyong Chen, Chengp
 
 ### Environment
 
-1. Clone this repo:
+Step 1. Clone this repo:
 
 ```
 git clone https://github.com/YanZhang-zy/CoA.git
 cd CoA/
 ```
 
-2. Create a new conda environment and install dependencies:
+Step 2. Create a new conda environment and install dependencies:
 
 ```
 conda create -n CoA python=3.10
@@ -32,7 +32,7 @@ pip install -r requirements.txt
 
 ### Data Preparation
 
-1. Download the dataset: [[RESIDE](https://sites.google.com/view/reside-dehaze-datasets/reside-v0)], [[HAZE4K](https://github.com/liuye123321/DMT-Net)] and [[REAL_FOGGY](https://live.ece.utexas.edu/research/fog/fade_defade.html)].
+1. Download the haze dataset from websites or papers.
 2. Make sure the file structure is consistent with the following:
 
 ```
@@ -85,3 +85,8 @@ dataset/
 │   └── 3.png
 │   └── ...
 ```
+[[RESIDE](https://sites.google.com/view/reside-dehaze-datasets/reside-v0)], [[HAZE4K](https://github.com/liuye123321/DMT-Net)] and [[REAL_FOGGY](https://live.ece.utexas.edu/research/fog/fade_defade.html)].
+The datasets can be downloaded at
++ HAZE4K: https://github.com/chaimi2013/3R
++ RESIDE: https://sites.google.com/view/reside-dehaze-datasets/reside-v0
++ REAL_FOGGY: https://live.ece.utexas.edu/research/fog/fade_defade.html(https://pan.baidu.com/s/1w1ivzhnkiTyaw5W2TtBx5A?pwd=0519)
