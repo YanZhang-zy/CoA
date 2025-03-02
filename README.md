@@ -85,8 +85,8 @@ dataset/
 │   └── 3.png
 │   └── ...
 ```
-[[RESIDE](https://sites.google.com/view/reside-dehaze-datasets/reside-v0)], [[HAZE4K](https://github.com/liuye123321/DMT-Net)] and [[REAL_FOGGY](https://live.ece.utexas.edu/research/fog/fade_defade.html)].
+
 The datasets can be downloaded at
-+ HAZE4K: https://github.com/chaimi2013/3R
++ HAZE4K: https://pan.baidu.com/s/19stkJ3aaF8WgHK2FBytnZA?pwd=0411
 + RESIDE: https://sites.google.com/view/reside-dehaze-datasets/reside-v0
-+ REAL_FOGGY: https://live.ece.utexas.edu/research/fog/fade_defade.html(https://pan.baidu.com/s/1w1ivzhnkiTyaw5W2TtBx5A?pwd=0519)
++ REAL_FOGGY: https://pan.baidu.com/s/1w1ivzhnkiTyaw5W2TtBx5A?pwd=0519
