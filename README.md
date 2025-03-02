@@ -109,3 +109,19 @@ We would like to extend our gratitude to the following implementations for their
 
 - [CLIP-LIT](https://github.com/ZhexinLiang/CLIP-LIT.git) for providing the methodology for training pre-trained prompt pairs.
 - [DEA-Net](https://github.com/cecret3350/DEA-Net.git) for providing the re-parameterization technique.
+
+## Citation
+If you find our paper and repo are helpful for your research, please consider citing:
+
+```bibtex
+@inproceedings{ma2025coa,
+ author={Long Ma, Yuxin Feng, Yan Zhang, Jinyuan Liu, Weimin Wang, Guangyong Chen, Chengpei Xu, Zhuo Su},
+ booktitle={Proceedings of the IEEE/CVF Conference on Computer Vision and Pattern Recognition (CVPR)},
+ title={CoA: Towards Real Image Dehazing via Compression-and-Adaptation},
+ year={2025}
+}
+```
+
+## Contacts :mailbox_with_mail:
+If you have any questions or suggestions about this repo, please feel free to contact me (malone94319@gmail.com).
+
