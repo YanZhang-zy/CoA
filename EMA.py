@@ -1,0 +1,275 @@
+import math
+import os
+import time
+import numpy as np
+import itertools
+import torch
+import clip
+import torch.nn.functional as F
+from torch import optim, nn
+from torch.backends import cudnn
+from torch.utils.data import DataLoader
+import torch.utils.data
+from metric import psnr, ssim
+from loss import SSIM, FA, ContrastLoss
+from data import RESIDE_Dataset, TestDataset, CLIP_loader
+from model import Teacher, Student
+from CLIP import L_clip_from_feature
+from collections import OrderedDict
+from option.EMA import opt
+
+start_time = time.time()
+steps = opt.iters_per_epoch * opt.epochs
+T = steps
+
+
+def lr_schedule_cosdecay(t, T, init_lr=opt.start_lr, end_lr=opt.end_lr):
+    lr = end_lr + 0.5 * (init_lr - end_lr) * (1 + math.cos(t * math.pi / T))
+    return lr
+
+
+class TextEncoder(nn.Module):
+    def __init__(self, clip_model):
+        super().__init__()
+        self.transformer = clip_model.transformer
+        self.positional_embedding = clip_model.positional_embedding
+        self.ln_final = clip_model.ln_final
+        self.text_projection = clip_model.text_projection
+        self.dtype = clip_model.dtype
+
+    def forward(self, prompts, tokenized_prompts):
+        x = prompts + self.positional_embedding.type(self.dtype)
+
+        x = x.permute(1, 0, 2)
+        x = self.transformer(x)
+        x = x.permute(1, 0, 2)
+        x = self.ln_final(x).type(self.dtype)
+
+        x = x[torch.arange(x.shape[0]), tokenized_prompts.argmax(dim=-1)] @ self.text_projection
+
+        return x
+
+
+def update_ema_variables(student_model, teacher_model, alpha):
+    for teacher_param, student_param in zip(teacher_model.parameters(), student_model.parameters()):
+        teacher_param.data.mul_(alpha).add_((1 - alpha) * student_param.data)
+
+
+def train(teacher_net, student_net, loader_train_1, loader_test, optim, criterion):
+    losses = []
+    loss_log = {'L1_r': [], 'Clip': [], 'total': []}
+    loss_log_tmp = {'L1_r': [], 'Clip': [], 'total': []}
+    psnr_log = []
+
+    start_step = 0
+    max_ssim = 0
+    max_psnr = 0
+    ssims = []
+    psnrs = []
+
+    loader_train_iter_1 = iter(loader_train_1)
+    alpha = 0.95
+    save_count = 0
+
+    for step in range(start_step + 1, steps + 1):
+        teacher_net.eval()
+        student_net.train()
+        lr = opt.start_lr
+        if not opt.no_lr_sche:
+            lr = lr_schedule_cosdecay(step, T)
+            for param_group in optim.param_groups:
+                param_group["lr"] = lr
+
+        x = next(loader_train_iter_1)
+        x = x.to(opt.device)
+
+        with torch.no_grad():
+            teacher_output = teacher_net(x)
+        student_out = student_net(x)
+
+        loss_L1_r = 0
+        loss_Clip = 0
+
+        if opt.w_loss_L1_r > 0:
+            loss_L1_r = criterion[0](student_out[0], teacher_output[0])
+        if opt.w_loss_Clip > 0:
+            loss_Clip = criterion[1](student_out[0], text_features)
+
+        loss = opt.w_loss_L1_r * loss_L1_r + opt.w_loss_Clip * loss_Clip
+        loss.backward()
+        optim.step()
+        optim.zero_grad()
+        losses.append(loss.item())
+        loss_log_tmp['L1_r'].append(loss_L1_r.item())
+        loss_log_tmp['Clip'].append(loss_Clip.item())
+        loss_log_tmp['total'].append(loss.item())
+
+        print(
+            f'\rloss:{loss.item():.5f} | L1_r:{opt.w_loss_L1_r * loss_L1_r.item():.5f}  |Clip:{opt.w_loss_Clip * loss_Clip.item():.5f} | step :{step}/{steps} | lr :{lr :.9f} | time_used :{(time.time() - start_time) / 60 :.1f}',
+            end='', flush=True)
+
+        if step % len(loader_train_1) == 0:
+            loader_train_iter_1 = iter(loader_train_1)
+            for key in loss_log.keys():
+                loss_log[key].append(np.average(np.array(loss_log_tmp[key])))
+                loss_log_tmp[key] = []
+            np.save(os.path.join(opt.saved_data_dir, 'losses.npy'), losses)
+        if (step % opt.iters_per_epoch == 0 and step <= opt.finer_eval_step) or (
+                step > opt.finer_eval_step and (step - opt.finer_eval_step) % (5 * len(loader_train_1)) == 0):
+            if step > opt.finer_eval_step:
+                epoch = opt.finer_eval_step // opt.iters_per_epoch + (step - opt.finer_eval_step) // (
+                        5 * len(loader_train_1))
+            else:
+                epoch = int(step / opt.iters_per_epoch)
+            with torch.no_grad():
+                ssim_eval, psnr_eval = test(student_net, loader_test)
+
+            log = f'\nstep :{step} | epoch: {epoch} | ssim:{ssim_eval:.4f}| psnr:{psnr_eval:.4f} | lr:{lr:.12f}'
+            print(log)
+            with open(os.path.join(opt.saved_data_dir, 'log.txt'), 'a') as f:
+                f.write(log + '\n')
+
+            ssims.append(ssim_eval)
+            psnrs.append(psnr_eval)
+            psnr_log.append(psnr_eval)
+            state_dict = student_net.state_dict()
+            if 'module' in list(state_dict.keys())[0]:
+                from collections import OrderedDict
+                new_state_dict = OrderedDict()
+                for k, v in state_dict.items():
+                    name = k.replace('module.', '')
+                    new_state_dict[name] = v
+                state_dict = new_state_dict
+
+            if psnr_eval > max_psnr:
+                max_ssim = max(max_ssim, ssim_eval)
+                max_psnr = max(max_psnr, psnr_eval)
+                print(
+                    f'model saved at step :{step}| epoch: {epoch} | max_psnr:{max_psnr:.4f}| max_ssim:{max_ssim:.4f}')
+                saved_best_model_path = os.path.join(opt.saved_model_dir, 'best.pth')
+                torch.save(state_dict, saved_best_model_path)
+
+            saved_single_model_path = os.path.join(opt.saved_model_dir, str(epoch) + '.pth')
+            torch.save(state_dict, saved_single_model_path)
+            save_count += 1
+
+            if save_count % 1 == 0:
+                update_ema_variables(student_net, teacher_net, alpha)
+            if save_count % 1 == 0:
+                teacher_state_dict = teacher_net.state_dict()
+                if 'module' in list(teacher_state_dict.keys())[0]:
+                    from collections import OrderedDict
+                    new_teacher_state_dict = OrderedDict()
+                    for k, v in teacher_state_dict.items():
+                        name = k.replace('module.', '')
+                        new_teacher_state_dict[name] = v
+                    teacher_state_dict = new_teacher_state_dict
+                saved_teacher_model_path = os.path.join(opt.saved_model_dir, 'teacher_' + str(epoch) + '.pth')
+                torch.save(teacher_state_dict, saved_teacher_model_path)
+
+                # 添加输出语句，提示教师模型已更新和保存
+                print(f'Teacher model updated and saved at epoch: {epoch}, step: {step}')
+
+            loader_train_iter_1 = iter(loader_train_1)
+            np.save(os.path.join(opt.saved_data_dir, 'ssims.npy'), ssims)
+            np.save(os.path.join(opt.saved_data_dir, 'psnrs.npy'), psnrs)
+
+
+def pad_img(x, patch_size):
+    _, _, h, w = x.size()
+    mod_pad_h = (patch_size - h % patch_size) % patch_size
+    mod_pad_w = (patch_size - w % patch_size) % patch_size
+    x = F.pad(x, (0, mod_pad_w, 0, mod_pad_h), 'reflect')
+    return x
+
+
+def test(net, loader_test):
+    net.eval()
+    torch.cuda.empty_cache()
+    ssims = []
+    psnrs = []
+
+    for i, (inputs, targets, hazy_name) in enumerate(loader_test):
+        inputs = inputs.to(opt.device)
+        targets = targets.to(opt.device)
+        with torch.no_grad():
+            H, W = inputs.shape[2:]
+            inputs = pad_img(inputs, 4)
+            pred = net(inputs)[0].clamp(0, 1)
+            pred = pred[:, :, :H, :W]
+        ssim_tmp = ssim(pred, targets).item()
+        psnr_tmp = psnr(pred, targets)
+        ssims.append(ssim_tmp)
+        psnrs.append(psnr_tmp)
+
+    return np.mean(ssims), np.mean(psnrs)
+
+
+def set_seed_torch(seed=2018):
+    os.environ['PYTHONHASHSEED'] = str(seed)
+    np.random.seed(seed)
+    torch.manual_seed(seed)
+    torch.cuda.manual_seed(seed)
+    torch.backends.cudnn.deterministic = True
+
+
+if __name__ == "__main__":
+
+    set_seed_torch(2024)
+
+    clip_model, _ = clip.load("ViT-B/32", device=torch.device("cpu"), download_root="./clip_model/")  # ViT-B/32
+    clip_model.to(opt.device)
+    for param in clip_model.parameters():
+        param.requires_grad = False
+    res_model, _ = clip.load("RN101", device=torch.device("cpu"), download_root="./clip_model/")
+    res_model.to(opt.device)
+    for param in res_model.parameters():
+        param.requires_grad = False
+    data = torch.load('./clip_model/haze_prompt.pth')
+    new_state_dict = OrderedDict()
+    for k, v in data.items():
+        name = k[7:]  # remove `module.`
+        new_state_dict[name] = v
+    embedding_prompt = nn.Parameter(new_state_dict['embedding_prompt']).cuda()
+    text_encoder = TextEncoder(clip_model)
+    embedding_prompt.requires_grad = False
+    tokenized_prompts = torch.cat([clip.tokenize(p) for p in [" ".join(["X"] * 16)]])
+    text_features = text_encoder(embedding_prompt, tokenized_prompts)
+    clip_model.eval()
+    res_model.eval()
+
+    train_dir_1 = './data/foggy'
+    train_set_1 = CLIP_loader(train_dir_1, True, 256)
+
+    test_dir = './data/THaze/test'
+    test_set = TestDataset(os.path.join(test_dir, 'hazy'), os.path.join(test_dir, 'clear'))
+
+    loader_train_1 = DataLoader(dataset=train_set_1, batch_size=24, shuffle=True, num_workers=8)
+    loader_test = DataLoader(dataset=test_set, batch_size=1, shuffle=False, num_workers=1)
+
+    teacher_net = Student()
+    teacher_net = teacher_net.to(opt.device)
+    teacher_net.load_state_dict(torch.load('./model/Student_model/Student.pth', map_location=torch.device("cpu")))
+    teacher_net.eval()
+
+    student_net = Student()
+    student_net = student_net.to(opt.device)
+    student_net.load_state_dict(torch.load('./model/Student_model/Student.pth', map_location=torch.device("cpu")))
+
+    if opt.device == 'cuda':
+        student_net = torch.nn.DataParallel(student_net)
+        cudnn.benchmark = True
+
+    pytorch_total_params = sum(p.numel() for p in student_net.parameters() if p.requires_grad)
+    print("Total_params: ==> {}".format(pytorch_total_params))
+    print("------------------------------------------------------------------")
+
+    criterion = []
+    criterion.append(nn.L1Loss().to(opt.device))
+    criterion.append(L_clip_from_feature().to(opt.device))
+
+    optimizer = optim.Adam(params=filter(lambda x: x.requires_grad, student_net.parameters()), lr=opt.start_lr,
+                           betas=(0.9, 0.999),
+                           eps=1e-08)
+    optimizer.zero_grad()
+    train(teacher_net, student_net, loader_train_1, loader_test, optimizer, criterion)
