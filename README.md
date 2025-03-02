@@ -87,6 +87,6 @@ dataset/
 ```
 
 The datasets can be downloaded at
-+ HAZE4K: https://pan.baidu.com/s/19stkJ3aaF8WgHK2FBytnZA?pwd=0411
 + RESIDE: https://sites.google.com/view/reside-dehaze-datasets/reside-v0
-+ REAL_FOGGY: https://pan.baidu.com/s/1w1ivzhnkiTyaw5W2TtBx5A?pwd=0519
++ HAZE4K: https://pan.baidu.com/s/19stkJ3aaF8WgHK2FBytnZA?pwd=0411
++ REAL_FOGGY: https://pan.baidu.com/s/1GS9qkwcBcKB411pdSwFcDg?pwd=0519
