@@ -98,3 +98,13 @@ The datasets can be downloaded at
 + RESIDE: https://sites.google.com/view/reside-dehaze-datasets/reside-v0
 + HAZE4K: https://pan.baidu.com/s/19stkJ3aaF8WgHK2FBytnZA?pwd=0411
 + REAL_FOGGY: https://pan.baidu.com/s/1GS9qkwcBcKB411pdSwFcDg?pwd=0519
+
+### Training
+
+1. Run the following script to train CoA from scratch:
+
+
+## Acknowledgments
+We would like to extend our gratitude to the following implementations for their contributions to the development of CoA:
+
+- [CLIP-LIT](https://github.com/ZhexinLiang/CLIP-LIT.git) for providing the method for learning pretrained prompt pair.
