@@ -167,7 +167,6 @@ def train(teacher_net, student_net, loader_train_1, loader_test, optim, criterio
                 saved_teacher_model_path = os.path.join(opt.saved_model_dir, 'teacher_' + str(epoch) + '.pth')
                 torch.save(teacher_state_dict, saved_teacher_model_path)
 
-                # 添加输出语句，提示教师模型已更新和保存
                 print(f'Teacher model updated and saved at epoch: {epoch}, step: {step}')
 
             loader_train_iter_1 = iter(loader_train_1)
@@ -238,7 +237,7 @@ if __name__ == "__main__":
     clip_model.eval()
     res_model.eval()
 
-    train_dir_1 = './data/foggy'
+    train_dir_1 = './data/real_foggy'
     train_set_1 = CLIP_loader(train_dir_1, True, 256)
 
     test_dir = './data/THaze/test'
