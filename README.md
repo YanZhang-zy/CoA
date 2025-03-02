@@ -32,7 +32,7 @@ pip install -r requirements.txt
 
 ### Data Preparation
 
-1. Download the dataset: [[RESIDE](https://sites.google.com/view/reside-dehaze-datasets/reside-v0)] and [[HAZE4K](https://github.com/liuye123321/DMT-Net)].
+1. Download the dataset: [[RESIDE](https://sites.google.com/view/reside-dehaze-datasets/reside-v0)], [[HAZE4K](https://github.com/liuye123321/DMT-Net)] and [[REAL_FOGGY](https://live.ece.utexas.edu/research/fog/fade_defade.html)].
 2. Make sure the file structure is consistent with the following:
 
 ```
@@ -79,4 +79,9 @@ dataset/
 │           └── 1_10_0.98796.png
 │           └── 2_1_0.99082.png
 │           └── ...
+├── REAL_FOGGY
+│   ├── 1.png
+│   └── 2.png
+│   └── 3.png
+│   └── ...
 ```
