@@ -12,11 +12,11 @@ Long Ma, Yuxin Feng, Yan Zhang, Jinyuan Liu, Weimin Wang, Guangyong Chen, Chengp
 
 ## Model
 
-<img src="fig/Model.jpg" alt="Model" style="zoom:20%;" />
+<img src="fig/Model.jpg" alt="Model" style="zoom:80%;" />
 
 ## Results
 
-<img src="fig/results.jpg" alt="Results" style="zoom:20%;" />
+<img src="fig/results.jpg" alt="Results" style="zoom:80%;" />
 
 ## Getting Started
 
