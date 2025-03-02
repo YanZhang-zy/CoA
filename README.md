@@ -10,6 +10,14 @@ Long Ma, Yuxin Feng, Yan Zhang, Jinyuan Liu, Weimin Wang, Guangyong Chen, Chengp
 
 </div>
 
+## CoA Model
+
+<img src="fig/Model.pdf" alt="Model" style="zoom:20%;" />
+
+## Results
+
+<img src="fig/results.png" alt="Results" style="zoom:20%;" />
+
 ## Getting Started
 
 ### Environment
