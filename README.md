@@ -16,7 +16,7 @@ Long Ma, Yuxin Feng, Yan Zhang, Jinyuan Liu, Weimin Wang, Guangyong Chen, Chengp
 
 ## Results
 
-<img src="fig/results.png" alt="Results" style="zoom:20%;" />
+<img src="fig/results.jpg" alt="Results" style="zoom:20%;" />
 
 ## Getting Started
 
