@@ -170,7 +170,7 @@ if __name__ == "__main__":
     test_dir = './data/THaze/test'
     test_set = TestDataset(os.path.join(test_dir, 'hazy'), os.path.join(test_dir, 'clear'))
 
-    loader_train_1 = DataLoader(dataset=train_set_1, batch_size=2, shuffle=True, num_workers=2)
+    loader_train_1 = DataLoader(dataset=train_set_1, batch_size=24, shuffle=True, num_workers=8)
     loader_test = DataLoader(dataset=test_set, batch_size=1, shuffle=False, num_workers=1)
 
     teacher_net = Teacher()
