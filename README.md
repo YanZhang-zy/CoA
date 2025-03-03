@@ -19,8 +19,8 @@
 
 <div>
     <h4 align="center">
-        <a href="https://arxiv.org/abs/2303.17569" target='_blank'>[arXiv]</a> •
-        <a href="https://youtu.be/0qbkxNmkNWU" target='_blank'>[Weight]</a>
+        <a href="https://pan.baidu.com/s/16WZ8FcMiY4JrkwxFy2yTLA?pwd=0214" target='_blank'>[arXiv]</a> •
+        <a href="https://pan.baidu.com/s/16WZ8FcMiY4JrkwxFy2yTLA?pwd=0214" target='_blank'>[Weight]</a>
     </h4>
 </div>
 
@@ -59,8 +59,8 @@ pip install -r requirements.txt
 
 ##  :book: Data Preparation
 
-1. Download the haze dataset from websites or papers.
-2. Make sure the file structure is consistent with the following:
+Step 1. Download the haze dataset from websites or papers.
+Step 2. Make sure the file structure is consistent with the following:
 
 ```
 dataset/
@@ -114,9 +114,9 @@ dataset/
 ```
 
 The datasets can be downloaded at
-+ RESIDE: https://sites.google.com/view/reside-dehaze-datasets/reside-v0
-+ HAZE4K: https://pan.baidu.com/s/19stkJ3aaF8WgHK2FBytnZA?pwd=0411
-+ REAL_FOGGY: https://pan.baidu.com/s/1GS9qkwcBcKB411pdSwFcDg?pwd=0519
++ [RESIDE](https://sites.google.com/view/reside-dehaze-datasets/reside-v0)
++ [HAZE4K](https://pan.baidu.com/s/19stkJ3aaF8WgHK2FBytnZA?pwd=0411)
++ [REAL_FOGGY](https://pan.baidu.com/s/1GS9qkwcBcKB411pdSwFcDg?pwd=0519)
 
 ## :train: Pre-trained Haze Prompt Pairs Training
 
@@ -124,10 +124,20 @@ In our experiment, we randomly select 4000 haze images from URHI training datase
 
 
 ## :hotsprings: Model Training
-# Download the pre-trained Res2Net model weights from [[Google Drive](https://drive.google.com/drive/folders/1Rjb8dpyNnvvr0XLvIX9fg8Hdru_MhMCj?usp=sharing)], as well as the pre-trained Haze Prompt Pairs and CLIP model weights from [[Google Drive](https://drive.google.com/drive/folders/1Rjb8dpyNnvvr0XLvIX9fg8Hdru_MhMCj?usp=sharing)].
+Step 1. Download the pre-trained Res2Net model weight from [[BaiduPan](https://pan.baidu.com/s/16WZ8FcMiY4JrkwxFy2yTLA?pwd=0214)], as well as the pre-trained haze prompt pairs and CLIP model weights from [[BaiduPan](https://pan.baidu.com/s/10L1_Xxz5YQjEpx4y9DwWLA?pwd=1314)].
 
+Step 2. Make sure the file structure is consistent with the following:
+```
+model/
+└── imagenet_model
+    └── res2net101_v1b_26w_4s-0812c246.pth
+clip_model/
+├── haze_prompt.pth
+├── RN101.pt
+└── ViT-B-32.pt
+```
 
-Run the following script to train CoA from scratch:
+Step 3. Run the following script to train CoA from scratch:
 ```
 python Teacher.py
 python Student.py
@@ -135,7 +145,21 @@ python EMA.py
 ```
 
 ## :taxi: Model Testing
-Run the following script to test CoA:
+Step 1. Download the pre-trained model weights from [[BaiduPan](https://pan.baidu.com/s/16WZ8FcMiY4JrkwxFy2yTLA?pwd=0214)].
+
+Step 2. Make sure the file structure is consistent with the following:
+```
+model/
+├── Teacher_model
+│   └── Teacher.pth
+├── Student_model
+│   └── Student.pth
+├── EMA_model
+│   ├── EMA.pth
+│   └── EMA_r.pth
+```
+
+Step 3. Run the following script to test CoA:
 ```
 python Eval.py
 ```
