@@ -1,3 +1,31 @@
+<div align="center">
+
+<h1>CoA: Towards Real Image Dehazing via Compression-and-Adaptation</h1>
+
+<div>
+    Long Ma</a>&emsp;
+    Yuxin Feng</a>&emsp;
+    Yan Zhang</a>&emsp;
+    Jinyuan Liu</a>&emsp;
+    Weimin Wang</a>&emsp;
+    Guangyong Chen</a>&emsp;
+    Chengpei Xu</a>&emsp;
+    Zhuo Su</a>
+</div>
+
+<div>
+    :star: <strong>Accepted to CVPR 2025
+</div>
+
+<div>
+    <h4 align="center">
+        <a href="https://arxiv.org/abs/2303.17569" target='_blank'>[arXiv]</a> •
+        <a href="https://youtu.be/0qbkxNmkNWU" target='_blank'>[Weight]</a>
+    </h4>
+</div>
+
+
+
 <div align="center"> 
 
 <h2> 
@@ -10,7 +38,7 @@ Long Ma, Yuxin Feng, Yan Zhang, Jinyuan Liu, Weimin Wang, Guangyong Chen, Chengp
 
 </div>
 
-## Model
+## Method
 
 <img src="fig/Model.jpg" alt="Model" style="zoom:80%;" />
 
