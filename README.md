@@ -24,25 +24,18 @@
     </h4>
 </div>
 
-
-
-<div align="center"> 
-
-<h2> 
-CoA: Towards Real Image Dehazing via Compression-and-Adaptation
-
-(CVPR 2025)
-</h2>
-
-Long Ma, Yuxin Feng, Yan Zhang, Jinyuan Liu, Weimin Wang, Guangyong Chen, Chengpei Xu, Zhuo Su
-
 </div>
 
-## Method
+## :mega: Updates
+- **2023.03.03**: :fire::fire::fire: Training codes, and initial checkpoints are publicly available now.
+- **2025.02.27**: :tada::tada::tada: Accepted by ***CVPR 2025***.
+
+
+## :mag: Method
 
 <img src="fig/Model.jpg" alt="Model" style="zoom:80%;" />
 
-## Results
+## :pencil2: Results
 
 <img src="fig/results.jpg" alt="Results" style="zoom:80%;" />
 
