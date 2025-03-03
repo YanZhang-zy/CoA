@@ -33,7 +33,7 @@
 
 ## :mag: Method
 
-<img src="fig/Model.jpg" alt="Model" style="zoom:80%;" />
+<img src="fig/Model.png" alt="Model" style="zoom:80%;" />
 
 ## :pencil2: Results
 
