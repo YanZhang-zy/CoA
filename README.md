@@ -118,10 +118,25 @@ The datasets can be downloaded at
 + HAZE4K: https://pan.baidu.com/s/19stkJ3aaF8WgHK2FBytnZA?pwd=0411
 + REAL_FOGGY: https://pan.baidu.com/s/1GS9qkwcBcKB411pdSwFcDg?pwd=0519
 
-## :hotsprings: Training
+## :train: Pre-trained Haze Prompt Pairs Training
 
-1. Run the following script to train CoA from scratch:
+In our experiment, we randomly select 4000 haze images from URHI training dataset and 2000 clear images from RESIDE-Outdoor testing dataset as the unpaired training data. We provide the training data we use at [[BaiduPan](https://pan.baidu.com/s/1G8yiq6CWRzVHEZKhu-SD7A?pwd=0314)] for your reference. For the specific training code, please refer to [CLIP-LIT](https://github.com/ZhexinLiang/CLIP-LIT.git).
 
+
+## :hotsprings: Model Training
+
+Run the following script to train CoA from scratch:
+```
+python Teacher.py
+python Student.py
+python EMA.py
+```
+
+## :taxi: Model Testing
+Run the following script to test CoA:
+```
+python Eval.py
+```
 
 ## :clipboard: Acknowledgments
 We would like to extend our gratitude to the following implementations for their contributions to the development of CoA:
