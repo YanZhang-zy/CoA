@@ -39,9 +39,7 @@
 
 <img src="fig/results.jpg" alt="Results" style="zoom:80%;" />
 
-## Getting Started
-
-### Environment
+## :desktop_computer: Environment
 
 Step 1. Clone this repo:
 
@@ -59,7 +57,7 @@ conda install pytorch==2.2.0 torchvision==0.17.0 torchaudio==2.2.0 pytorch-cuda=
 pip install -r requirements.txt
 ```
 
-### Data Preparation
+##  :book: Data Preparation
 
 1. Download the haze dataset from websites or papers.
 2. Make sure the file structure is consistent with the following:
@@ -120,18 +118,18 @@ The datasets can be downloaded at
 + HAZE4K: https://pan.baidu.com/s/19stkJ3aaF8WgHK2FBytnZA?pwd=0411
 + REAL_FOGGY: https://pan.baidu.com/s/1GS9qkwcBcKB411pdSwFcDg?pwd=0519
 
-### Training
+## :hotsprings: Training
 
 1. Run the following script to train CoA from scratch:
 
 
-## Acknowledgments
+## :clipboard: Acknowledgments
 We would like to extend our gratitude to the following implementations for their contributions to the development of CoA:
 
 - [CLIP-LIT](https://github.com/ZhexinLiang/CLIP-LIT.git) for providing the methodology for training pre-trained prompt pairs.
 - [DEA-Net](https://github.com/cecret3350/DEA-Net.git) for providing the re-parameterization technique.
 
-## Citation
+## :triangular_flag_on_post: Citation
 If you find our paper and repo are helpful for your research, please consider citing:
 
 ```bibtex
@@ -143,6 +141,6 @@ If you find our paper and repo are helpful for your research, please consider ci
 }
 ```
 
-## Contacts :mailbox_with_mail:
+## :mailbox_with_mail: Contacts 
 If you have any questions or suggestions about this repo, please feel free to contact me (malone94319@gmail.com).
 
