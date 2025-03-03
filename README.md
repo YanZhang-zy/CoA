@@ -124,6 +124,8 @@ In our experiment, we randomly select 4000 haze images from URHI training datase
 
 
 ## :hotsprings: Model Training
+# Download the pre-trained Res2Net model weights from [[Google Drive](https://drive.google.com/drive/folders/1Rjb8dpyNnvvr0XLvIX9fg8Hdru_MhMCj?usp=sharing)], as well as the pre-trained Haze Prompt Pairs and CLIP model weights from [[Google Drive](https://drive.google.com/drive/folders/1Rjb8dpyNnvvr0XLvIX9fg8Hdru_MhMCj?usp=sharing)].
+
 
 Run the following script to train CoA from scratch:
 ```
