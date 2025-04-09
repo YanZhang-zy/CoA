@@ -124,7 +124,7 @@ In our experiment, we randomly select 4000 haze images from URHI training datase
 
 
 ## :hotsprings: Model Training
-Step 1. Download the pre-trained Res2Net model weight from [[BaiduPan](https://pan.baidu.com/s/16WZ8FcMiY4JrkwxFy2yTLA?pwd=0214)], as well as the pre-trained haze prompt pairs and CLIP model weights from [[BaiduPan](https://pan.baidu.com/s/10L1_Xxz5YQjEpx4y9DwWLA?pwd=1314)].
+Step 1. Download the pre-trained Res2Net model weight from [[BaiduPan](https://pan.baidu.com/s/16WZ8FcMiY4JrkwxFy2yTLA?pwd=0214)].
 
 Step 2. Make sure the file structure is consistent with the following:
 ```
