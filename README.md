@@ -140,8 +140,7 @@ clip_model/
 Step 3. Run the following script to train CoA from scratch:
 ```
 python Teacher.py
-python Student.py
-python EMA.py
+python KD.py
 ```
 
 ## :taxi: Model Testing
