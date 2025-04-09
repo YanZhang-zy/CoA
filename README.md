@@ -182,5 +182,5 @@ If you find our paper and repo are helpful for your research, please consider ci
 ```
 
 ## :mailbox_with_mail: Contacts 
-If you have any questions or suggestions about this repo, please feel free to contact me (malone94319@gmail.com).
+If you have any questions or suggestions about this repo, please feel free to contact me (zhangy2779@mail2.sysu.edu.cn).
 
