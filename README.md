@@ -20,7 +20,8 @@
 <div>
     <h4 align="center">
         <a href="https://arxiv.org/abs/2504.05590" target='_blank'>[arXiv]</a> •
-        <a href="https://pan.baidu.com/s/1hINu3suhWb3wWVfUWoWlnQ?pwd=0519" target='_blank'>[Weight]</a> •
+        <a href="https://drive.google.com/drive/folders/1GPUtjvlASVokIjaXJlt8j-QsFxLT9Zgg?usp=sharing" target='_blank'>[GoogleDrive Weight]</a> •
+        <a href="https://pan.baidu.com/s/1hINu3suhWb3wWVfUWoWlnQ?pwd=0519" target='_blank'>[BaiduNetdisk Weight]</a> •
         <a href="http://coa.realdehaze.top" target='_blank'>[Demo]</a> 
     </h4>
 </div>
