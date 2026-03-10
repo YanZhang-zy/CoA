@@ -29,6 +29,7 @@
 </div>
 
 ## :mega: Updates
+- **2026.02.21**: :tada::tada::tada: Our following work "[Bilevel Layer-Positioning LoRA for Real Image Dehazing](https://github.com/YanZhang-zy/BiLaLoRA)"  is accepted by CVPR 2026.
 - **2025.03.03**: :fire::fire::fire: Training codes, and initial checkpoints are publicly available now.
 - **2025.02.27**: :tada::tada::tada: Accepted by ***CVPR 2025***.
 
