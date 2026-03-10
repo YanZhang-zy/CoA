@@ -3,18 +3,18 @@
 <h1>CoA: Towards Real Image Dehazing via Compression-and-Adaptation</h1>
 
 <div>
-    Long Ma</a>&emsp;
-    Yuxin Feng</a>&emsp;
-    Yan Zhang</a>&emsp;
-    Jinyuan Liu</a>&emsp;
-    Weimin Wang</a>&emsp;
-    Guangyong Chen</a>&emsp;
-    Chengpei Xu</a>&emsp;
-    Zhuo Su</a>
+    <strong>Long Ma</a>&emsp;
+    <strong>Yuxin Feng</a>&emsp;
+    <strong>Yan Zhang</a>&emsp;
+    <strong>Jinyuan Liu</a>&emsp;
+    <strong>Weimin Wang</a>&emsp;
+    <strong>Guangyong Chen</a>&emsp;
+    <strong>Chengpei Xu</a>&emsp;
+    <strong>Zhuo Su</a>
 </div>
 
 <div>
-    :star: <strong>Accepted to CVPR 2025
+    :star: <strong>Accepted to CVPR 2025 :star:
 </div>
 
 <div>
